@@ -5,19 +5,17 @@ CC = g++
 F77 = gfortran 
 CC2 = gcc
 LAPACK = lapack.a blas.a
-INCLUDE = -I /data1/sodtaj/programs/gsl-2.3/ -I $(FFTW_PREFIX)/include
-GSLLIB = -L /usr/lib -L /usr/lib64 -lgsl -lfftw3
-LDFLAGS = -L $(LD_RUN_PATH)  -lgfortran $(GSLLIB)
+INCLUDE = -I $(FFTW_PREFIX)/include
+EXTLIB = -L /usr/lib -L /usr/lib64 -lfftw3
+LDFLAGS = -L $(LD_RUN_PATH)  -lgfortran $(EXTLIB)
 
 FLAGS = -g 
-
-%.cl.o : %.cl
 
 .C.o: 
 	$(CC) $(CPPFLAGS) $(INCLUDE) -o $*.o -c $(FLAGS) $*.C
 
 .c.o:
-	$(CC2) $(CPPFLAGS) $(INCLUDE) $(QHULL) $(COPT) $(CDEFN)   -O2	-c	$*.c
+	$(CC2) $(CPPFLAGS) $(INCLUDE) $(COPT) $(CDEFN)   -O2	-c	$*.c
 
 .f.o:
 	$(F77) -O3 -c $*.f -o $*.o
